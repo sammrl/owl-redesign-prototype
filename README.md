@@ -1,5 +1,7 @@
 # Modern Frontend and API Implementation for OWL Multi-Agent System
 
+https://github.com/sammrl/owl-redesign-prototype/assets/ui-demo.mov
+
 This repository contains my custom implementation for the OWL (Optimized Workforce Learning) multi-agent collaboration system. It provides both:
 
 1. A modern **React/TypeScript frontend** with enhanced UI components
