@@ -1,4 +1,4 @@
-# Modern Frontend and API Implementation for OWL Multi-Agent System
+# Modern Frontend and API Implementation for OWL Multi-Agent AI System
 
 
 This repository contains my custom implementation for the OWL (Optimized Workforce Learning) multi-agent collaboration system. It provides both:
