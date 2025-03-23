@@ -1,14 +1,13 @@
-# Python
+# Python backend
 __pycache__/
 **/__pycache__/
-*/__pycache__/*
 *.py[cod]
 *$py.class
 *.so
 .Python
 build/
 develop-eggs/
-.dist
+dist/
 downloads/
 eggs/
 .eggs/
@@ -21,33 +20,56 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-
-# Virtual Environment
+.venv/
 venv/
 env/
 ENV/
-.env
 
-# Runtime Temporary files
+# Frontend
+node_modules/
+coverage/
+.npm
+.yarn
+dist/
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
 tmp/
 
-# IDE
+# IDE files
 .idea/
 .vscode/
 *.swp
 *.swo
+
+# Environment files
+.env
+.env.local
+.env.bak
+owl/.env
+
+# OS specific files
 .DS_Store
+Thumbs.db
+desktop.ini
+
+# Test files
+test_log.txt
+
+# Runtime files
+tmp/
 
 # Project specific
 owl/data
 owl/tmp
-owl/.env
 owl/utils/__pycache__/
-
-# Logs
-*.log
-logs/
-log/
 
 # Coverage reports
 htmlcov/

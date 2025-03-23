@@ -85,7 +85,33 @@ def construct_society(question: str) -> RolePlaying:
 
     # Configure agent roles and parameters
     user_agent_kwargs = {"model": models["user"]}
-    assistant_agent_kwargs = {"model": models["assistant"], "tools": tools}
+    
+    # Enhanced prompt for assistant to use browser tools
+    assistant_system_prompt = """You are a helpful assistant with access to browser tools. You MUST use these tools when answering questions.
+
+    IMPORTANT TOOL USAGE INSTRUCTIONS:
+    - ALWAYS use browse_url(start_url='https://website.com') to navigate to websites
+    - DO NOT claim you cannot browse - you have browser tools available
+    - Always use the actual browser tool instead of simulating browsing
+    - When asked about any website or online information, use the browser tool
+    
+    When you use the browser tool:
+    1. A Chrome window will appear (this is normal)
+    2. You'll receive content from the actual webpage
+    3. You should report what you actually see on the page
+    4. Use multiple browser calls if needed to explore different pages
+    
+    You MUST use the browser tool for ANY web-related query, rather than relying on your training data.
+    """
+    
+    # Configure the agent with the tools only
+    assistant_agent_kwargs = {
+        "model": models["assistant"], 
+        "tools": tools
+    }
+    
+    # Create a modified system prompt instead
+    # We'll directly modify the default system message in the agent after creation
 
     # Configure task parameters
     task_kwargs = {
@@ -93,7 +119,7 @@ def construct_society(question: str) -> RolePlaying:
         "with_task_specify": False,
     }
 
-    # Create and return the society
+    # Create and return the society with system message override
     society = RolePlaying(
         **task_kwargs,
         user_role_name="user",
@@ -101,14 +127,31 @@ def construct_society(question: str) -> RolePlaying:
         assistant_role_name="assistant",
         assistant_agent_kwargs=assistant_agent_kwargs,
     )
+    
+    # Override the system message content directly
+    society.assistant_agent.system_message.content = f"===== RULES OF ASSISTANT =====\n{assistant_system_prompt}\n" + society.assistant_agent.system_message.content.split("===== RULES OF ASSISTANT =====")[1]
 
     return society
 
 
 def main():
     r"""Main function to run the OWL system with an example question."""
-    # Default research question
-    default_task = "Navigate to Amazon.com and identify one product that is attractive to coders. Please provide me with the product name and price. No need to verify your answer."
+    # Default research question with stronger browser instructions
+    default_task = """
+    CRITICAL INSTRUCTION: You MUST use the browser tool to navigate to example.com right now.
+    
+    Please immediately use the browse_url tool to visit example.com and report what you see there.
+    
+    Required steps:
+    1. Open the browser by calling browse_url(start_url='https://example.com')
+    2. A Chrome window will appear (this is normal and expected)
+    3. Report what you see on the website
+    4. Then navigate to one more website of your choice and report what you see
+    
+    DO NOT SKIP THIS STEP. Immediately call browse_url(start_url='https://example.com') to begin.
+    
+    This is a direct test of the browser functionality - you must use the actual browse_url tool.
+    """
 
     # Override default task if command line argument is provided
     task = sys.argv[1] if len(sys.argv) > 1 else default_task
@@ -119,6 +162,9 @@ def main():
 
     # Output the result
     print(f"\033[94mAnswer: {answer}\033[0m")
+    
+    # Return info for testing
+    return answer, chat_history, token_count
 
 
 if __name__ == "__main__":

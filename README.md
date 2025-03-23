@@ -1,3 +1,150 @@
+# Modern Frontend and API Implementation for OWL Multi-Agent System
+
+This repository contains my custom implementation for the OWL (Optimized Workforce Learning) multi-agent collaboration system. It provides both:
+
+1. A modern **React/TypeScript frontend** with enhanced UI components
+2. A custom **FastAPI backend** replacing the original Gradio-based interface
+
+## Project Structure
+
+The project is organized into two main components:
+
+- `frontend/` - Modern React implementation with TypeScript, Tailwind, and React Query
+- `owl_api/` - Custom FastAPI backend providing a robust API for the OWL system
+- `owl/` and other directories - Core OWL functionality (from the original framework)
+
+## Key Improvements
+
+### Modern API Backend
+
+I've replaced the original Gradio-based web interface with a robust FastAPI implementation that provides:
+
+- RESTful API endpoints for all functionality
+- WebSocket support for real-time updates
+- Process pool management for browser operations
+- Comprehensive error handling
+- Environment variable management
+- Log management
+
+### Enhanced Frontend
+
+The frontend offers significant improvements:
+
+- Modern UI/UX with React 19 and TypeScript
+- Real-time updates using WebSockets
+- Responsive design for all devices
+- Enhanced visualization of agent interactions
+- Improved error handling and user feedback
+
+#### Key UI Components
+
+##### Environment Manager
+
+The implementation includes a comprehensive environment variable management system (`EnvironmentManager.tsx`) with several advanced features:
+
+- **Grouped Organization**: Variables are organized by provider/function (OpenAI, Azure, Google, etc.)
+- **Bulk Import**: Support for importing multiple variables at once from .env format
+- **Secret Management**: Password visibility toggles for API keys and other secrets
+- **API Testing**: Direct testing of API keys to verify connectivity
+- **Documentation Links**: Quick access to relevant documentation for each variable
+- **Smart Defaults**: Predefined variables with sensible defaults and descriptions
+- **Optional Fields**: Toggle to show/hide optional configuration variables
+
+![Environment Manager Screenshot](assets/env-manager-screenshot.png)
+
+## Documentation
+
+For more detailed information about this implementation, please refer to the following documents:
+
+- [API Documentation](./API_DOCUMENTATION.md) - Details on the FastAPI backend implementation
+- [Frontend Documentation](./FRONTEND_DOCUMENTATION.md) - Guide to the React frontend components including the EnvironmentManager
+- [Installation Guide](./INSTALL.md) - Step-by-step setup instructions
+- [Known Issues](./KNOWN_ISSUES.md) - Current limitations and future work
+
+## Current Limitations
+
+- **Module Compatibility**: Currently, only the `run_mini` module is fully functional with the frontend implementation. Other modules may be used via direct Python execution but aren't fully integrated with the UI.
+- **Browser Operations**: The system uses a process-based approach for browser operations to avoid threading issues, which may occasionally lead to resource management challenges.
+- For a full list of known issues and limitations, please see [KNOWN_ISSUES.md](./KNOWN_ISSUES.md).
+
+## Setup Instructions
+
+### Prerequisites
+
+- Python 3.10 or higher
+- Node.js 16.x or higher
+- npm 8.x or higher
+
+### Backend Setup
+
+1. Create and activate a Python virtual environment:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
+
+2. Install backend dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Configure environment variables:
+
+```bash
+cp owl/.env_template .env
+# Edit .env with your API keys and settings
+```
+
+### Frontend Setup
+
+1. Install frontend dependencies:
+
+```bash
+cd frontend
+npm install
+```
+
+2. Configure frontend environment:
+
+```bash
+# Copy the example environment file
+cp .env.example .env
+```
+
+## Running the Application
+
+### Start the Backend API
+
+```bash
+# From the project root
+python owl_api/main.py
+```
+
+This will start the FastAPI backend on port 8000.
+
+### Start the Frontend
+
+```bash
+cd frontend
+npm run dev
+```
+
+This will start the frontend development server on port 5173.
+
+## API Documentation
+
+See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for details on all available API endpoints and how to use them.
+
+## Known Issues and Limitations
+
+See [KNOWN_ISSUES.md](KNOWN_ISSUES.md) for information about current limitations and planned improvements.
+
+## Acknowledgements
+
+This project builds upon the [OWL](https://github.com/camel-ai/owl) framework developed by CAMEL-AI.org.
+
 <h1 align="center">
 	🦉 OWL: Optimized Workforce Learning for General Multi-Agent Assistance in Real-World Task Automation
 </h1>
